@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  openai_assistants_docker:
+    image: openai_assistants_docker
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/home/appuser/survey123-assistant
+    working_dir: /home/appuser/survey123-assistant
+    env_file:
+      - .env
+    ports:
+      - "${JUPYTER_PORT:-8001}:${JUPYTER_PORT:-8001}"
+    entrypoint: ["streamlit", "run", "make_assistant.py", "--server.port", "8001", "--server.address", "0.0.0.0"]
